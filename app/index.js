@@ -1,5 +1,5 @@
 const path = require('path')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 
 if (require('electron-squirrel-startup')) {
   app.quit()
@@ -12,12 +12,15 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      // preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false
     },
   })
 
+  ipcMain.on("getVideo", (Event, arg)=>{
+    console.log(arg)
+  })
   if (isDev) {
     mainWindow.loadURL('http://localhost:5173')
     // mainWindow.webContents.openDevTools()
